@@ -1,0 +1,220 @@
+<!--?xml version="1.0" encoding="iso-8859-1"?-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>Widerstandfarbcodes</title>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><meta charset="iso-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<style>
+	body { background-color: #000; color: #FFF; }
+	.band { display: inline-block; border: 1px solid white; width: 15%; }
+  .ring { width: 15% }
+</style>
+<body onload="resetall();">
+<script>
+var colors = Array(
+	"black",
+	"brown",
+	"red",
+	"orange",
+	"yellow",
+	"green",
+	"blue",
+	"indigo",
+	"gray",
+	"white",
+  "gold",
+	"silver"
+	);
+var multi = Array(
+	1E0,
+	1E1,
+	1E2,
+	1E3,
+	1E4,
+	1E5,
+	1E6,
+	1E7,
+	0,
+	0,
+	1E-1,
+	1E-2,
+	);
+var suffix = Array("","k","M");
+function gebi(Element) { return document.getElementById(Element); }
+function reset(Element) {
+	gebi(Element).selectedIndex = -1;
+	updatevalue();
+}
+function resetall() {
+  reset("ring5");
+  reset("ring4");
+  reset("ring3");
+  reset("ring2");
+  reset("ring1");
+  reset("ring0");
+  gebi("full").checked = false;
+  sizeall();
+}
+function sizeelement(element){
+let full = gebi("full").checked;
+let e = gebi(element);
+  if (e) {
+    e.size = (full)?(e.options.length):1;
+  }
+}
+function sizeall() {
+  sizeelement("ring5");
+  sizeelement("ring4");
+  sizeelement("ring3");
+  sizeelement("ring2");
+  sizeelement("ring1");
+  sizeelement("ring0");
+}
+function updatevalue() {
+	let i5 = gebi("ring5").selectedIndex;
+	let i4 = gebi("ring4").selectedIndex;
+	let i3 = gebi("ring3").selectedIndex;
+	let i2 = gebi("ring2").selectedIndex;
+	let i1 = gebi("ring1").selectedIndex;
+	let i0 = gebi("ring0").selectedIndex;
+	
+	let v5 = (i5>=0)?gebi("ring5").options[i5].value:-1;
+	let v4 = (i4>=0)?gebi("ring4").options[i4].value:-1;
+	let v3 = (i3>=0)?gebi("ring3").options[i3].value:-1;
+	let v2 = (i2>=0)?gebi("ring2").options[i2].value:-1;
+	let v1 = (i1>=0)?gebi("ring1").options[i1].value:-1;
+	let v0 = (i0>=0)?gebi("ring0").options[i0].value:-1;
+
+	let t5 = (i5>=0)?gebi("ring5").options[i5].text:"";
+	let t4 = (i4>=0)?gebi("ring4").options[i4].text:"";
+	let t3 = (i3>=0)?gebi("ring3").options[i3].text:"";
+	let t2 = (i2>=0)?gebi("ring2").options[i2].text:"";
+	let t1 = (i1>=0)?gebi("ring1").options[i1].text:"± 20%";
+	let t0 = (i0>=0)?gebi("ring0").options[i0].text:"";
+
+	let c5 = (i5>=0)?colors[v5]:"";
+	let c4 = (i4>=0)?colors[v4]:"";
+	let c3 = (i3>=0)?colors[v3]:"";
+	let c2 = (i2>=0)?colors[v2]:"";
+	let c1 = (i1>=0)?colors[v1]:"";
+	let c0 = (i0>=0)?colors[v0]:"";
+
+	let num = (t5 + t4 + t3)*multi[v2];
+	let m=0;
+	while (num>1000) { m++; num = num / 1000;};
+	
+	gebi("resvalue").value = ((Number.isInteger(num))?num.toFixed(0):((num<1)?num.toFixed(3):num.toFixed(1))) + suffix[m]+ "Ohm "+ t1 + " - "+ t0 +
+		"  --[" +
+		((i5>=0)?c5 + " | ":"") +
+		((i4>=0)?c4 + " | ":"") +
+		((i3>=0)?c3 + " | ":"") +
+		((i2>=0)?c2 + " | ":"") +
+		((i1>=0)?c1 + " | ":"") +
+		((i0>=0)?c0:"") +
+		"]--";
+		
+	gebi("band5").style.backgroundColor=c5;
+	gebi("band4").style.backgroundColor=c4;
+	gebi("band3").style.backgroundColor=c3;
+	gebi("band2").style.backgroundColor=c2;
+	gebi("band1").style.backgroundColor=c1;
+	gebi("band0").style.backgroundColor=c0;
+	
+	gebi("band5").style.display=(i5>=0)?"inline-block":"none";
+	gebi("band4").style.display=(i4>=0)?"inline-block":"none";
+	gebi("band3").style.display=(i3>=0)?"inline-block":"none";
+	gebi("band2").style.display=(i2>=0)?"inline-block":"none";
+	gebi("band1").style.display=(i1>=0)?"inline-block":"none";
+	gebi("band0").style.display=(i0>=0)?"inline-block":"none";
+}
+</script>
+<center><div>
+<h1>Widerstandfarbcodes</h1>
+<noscript><h2>wanna get fancy? enable JavaScript!</h2></noscript>
+<select id="ring5" class="ring" size="1" onchange="updatevalue()" ondblclick="reset('ring5')">
+	<option value="0" style="background-color: black; color:white">0</option>
+	<option value="1" style="background-color: brown">1</option>
+	<option value="2" style="background-color: red">2</option>
+	<option value="3" style="background-color: orange">3</option>
+	<option value="4" style="background-color: yellow">4</option>
+	<option value="5" style="background-color: green">5</option>
+	<option value="6" style="background-color: blue; color:white">6</option>
+	<option value="7" style="background-color: indigo; color:white">7</option>
+	<option value="8" style="background-color: gray">8</option>
+	<option value="9" style="background-color: white">9</option>
+</select>
+<select id="ring4" class="ring" size="1" onchange="updatevalue()" ondblclick="reset('ring4')">
+	<option value="0" style="background-color: black; color:white">0</option>
+	<option value="1" style="background-color: brown">1</option>
+	<option value="2" style="background-color: red">2</option>
+	<option value="3" style="background-color: orange">3</option>
+	<option value="4" style="background-color: yellow">4</option>
+	<option value="5" style="background-color: green">5</option>
+	<option value="6" style="background-color: blue; color:white">6</option>
+	<option value="7" style="background-color: indigo; color:white">7</option>
+	<option value="8" style="background-color: gray">8</option>
+	<option value="9" style="background-color: white">9</option>
+</select>
+<select id="ring3" class="ring" size="1" onchange="updatevalue()" ondblclick="reset('ring3')">
+	<option value="0" style="background-color: black; color:white">0</option>
+	<option value="1" style="background-color: brown">1</option>
+	<option value="2" style="background-color: red">2</option>
+	<option value="3" style="background-color: orange">3</option>
+	<option value="4" style="background-color: yellow">4</option>
+	<option value="5" style="background-color: green">5</option>
+	<option value="6" style="background-color: blue; color:white">6</option>
+	<option value="7" style="background-color: indigo; color:white">7</option>
+	<option value="8" style="background-color: gray">8</option>
+	<option value="9" style="background-color: white">9</option>
+</select>
+<select id="ring2" class="ring" size="1" onchange="updatevalue()" ondblclick="reset('ring2')">
+	<option value="0" style="background-color: black; color:white">&nbsp;Ohm</option>
+	<option value="1" style="background-color: brown">0 Ohm</option>
+	<option value="2" style="background-color: red">00 Ohm</option>
+	<option value="3" style="background-color: orange">&nbsp;kOhm</option>
+	<option value="4" style="background-color: yellow">0 kOhm</option>
+	<option value="5" style="background-color: green">00 kOhm</option>
+	<option value="6" style="background-color: blue; color:white">&nbsp;MOhm</option>
+	<option value="7" style="background-color: indigo; color:white">0 MOhm</option>
+	<!--option value="8" style="background-color: gray"></option-->
+	<!--option value="9" style="background-color: white"></option-->
+	<option value="10" style="background-color: gold"> x 100 mOhm</option>
+	<option value="11" style="background-color: silver">x 10 mOhm</option>
+</select>
+<select id="ring1" class="ring" size="1" onchange="updatevalue()" ondblclick="reset('ring1')">
+	<!--option value="0" style="background-color: black; color:white"></option-->
+	<option value="1" style="background-color: brown">&plusmn; 1%</option>
+	<option value="2" style="background-color: red">&plusmn; 2%</option>
+	<!--option value="3" style="background-color: orange"></option-->
+	<!--option value="4" style="background-color: yellow"></option-->
+	<option value="5" style="background-color: green">&plusmn; 0,5%</option>
+	<option value="6" style="background-color: blue; color:white">&plusmn; 0,25%</option>
+	<option value="7" style="background-color: indigo; color:white">&plusmn; 0,1%</option>
+	<option value="8" style="background-color: gray">&plusmn; 0,05%</option>
+	<!--option value="9" style="background-color: white"></option-->
+	<option value="10" style="background-color: gold">&plusmn; 5%</option>
+	<option value="11" style="background-color: silver">&plusmn; 10%</option>
+</select>
+<select id="ring0" class="ring" size="1" onchange="updatevalue()" ondblclick="reset('ring0')">
+	<option value="0" style="background-color: black; color:white">250 ppm/K</option>
+	<option value="1" style="background-color: brown">100 ppm/K</option>
+	<option value="2" style="background-color: red">50 ppm/K</option>
+	<option value="3" style="background-color: orange">15 ppm/K</option>
+	<option value="4" style="background-color: yellow">25 ppm/K</option>
+	<option value="5" style="background-color: green">20 ppm/K</option>
+	<option value="6" style="background-color: blue; color:white">10 ppm/K</option>
+	<option value="7" style="background-color: indigo; color:white">5 ppm/K</option>
+	<option value="8" style="background-color: gray">1 ppm/K</option>
+	<!--option value="9" style="background-color: white"></option-->
+	<!--option value="10" style="background-color: gold"></option-->
+	<!--option value="11" style="background-color: silver"></option-->
+</select>
+<br>
+<div style="width: 100%">
+<div id="band5" class="band">&nbsp;</div><div id="band4" class="band">&nbsp;</div><div id="band3" class="band">&nbsp;</div><div id="band2" class="band">&nbsp;</div><div id="band1" class="band">&nbsp;</div><div id="band0" class="band">&nbsp;</div>
+</div>
+<input type="reset" onclick="resetall();" />
+<input id="full" type="checkbox" onclick="sizeall();">Full size</input>
+<input id="resvalue" type="text" readonly="true" style="width: 100%; text-align: center"/>
+</div></center>
+</body>
+</html>
